@@ -63,5 +63,46 @@ $(document).ready(function() {
         $("#mweather").removeClass("placeholder");
         $("#mtemp").removeClass("placeholder");
     });
+
+    setInterval(function(){
+            $.get("data/isslocation.json", function(json){
+                var data = JSON.parse(json);
+                var lat,lon;
+
+                if (data.latitude > 0) {
+                    lat = "°N";
+                } else {
+                    lat = "°S";
+                }
+
+                if (data.longitude > 0) {
+                    lon = "°E";
+                } else {
+                    lat = "°W";
+                }
+  
+                lat = Math.abs(Math.floor(data.latitude)) + lat;
+                lon = Math.abs(Math.floor(data.longitude)) + lon;
+ 
+                $('#isslat').text(lat + " " + lon);
+                $('#isslat').removeClass("placeholder");
+            });
+    },2000);
     
+    function deg_to_dms (deg) {
+        var d = Math.floor (deg);
+        var minfloat = (deg-d)*60;
+        var m = Math.floor(minfloat);
+        var secfloat = (minfloat-m)*60;
+        var s = Math.round(secfloat);
+        if (s==60) {
+            m++;
+            s=0;
+        }
+        if (m==60) {
+            d++;
+            m=0;
+        }
+        return (d);
+    }    
 });

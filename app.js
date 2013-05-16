@@ -46,6 +46,14 @@ app.get("/data/marsweather.json", function(req, res) {
     });
 });
    
+app.get("/data/isslocation.json", function(req, res) {
+    request.get("http://api.open-notify.org/iss-now/", function(e, r, b){
+        var data = JSON.parse(b);
+        var iss = data.iss_position;
+        res.render("json",{data:iss});
+    });
+});
 
 app.listen(10624);
 console.log("Listening on 10624");
+
