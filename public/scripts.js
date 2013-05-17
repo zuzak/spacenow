@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var count = 0;
     var ex1dock = new Date(2002,11,2,9,21);
+    var moonliftoff = new Date(1972,12,14,21,55);
     $(".counter:contains('ø')").addClass('placeholder');
     setInterval(function(){
         count++;
@@ -49,6 +50,27 @@ $(document).ready(function() {
         $('#isstime').removeClass('placeholder');
     },1000);
 
+
+
+    setInterval(function(){
+        var curr = new Date;
+        var diff = $.now() -  moonliftoff;
+       
+        var s, m, h, d;
+        s = Math.floor(diff / 1000);
+        m = Math.floor(s / 60);
+        s = s % 60;
+        h = Math.floor(m / 60);
+        m = m % 60;
+        d = Math.floor(h / 24);
+        h = h % 24; 
+        y = Math.floor(d / 365.5);
+        d = d % 365.5 
+
+        $('#moontime').text(y + "y " + d + "d " + m + "m " + s + "s");
+        $('#moontime').removeClass('placeholder');
+    },1000);
+    
     $.get("data/marsweather.json", function(json){
         var data = JSON.parse(json);
         data = data.weather_report
@@ -78,7 +100,7 @@ $(document).ready(function() {
                 if (data.longitude > 0) {
                     lon = "°E";
                 } else {
-                    lat = "°W";
+                    lon = "°W";
                 }
   
                 lat = Math.abs(Math.floor(data.latitude)) + lat;
@@ -87,22 +109,5 @@ $(document).ready(function() {
                 $('#isslat').text(lat + " " + lon);
                 $('#isslat').removeClass("placeholder");
             });
-    },2000);
-    
-    function deg_to_dms (deg) {
-        var d = Math.floor (deg);
-        var minfloat = (deg-d)*60;
-        var m = Math.floor(minfloat);
-        var secfloat = (minfloat-m)*60;
-        var s = Math.round(secfloat);
-        if (s==60) {
-            m++;
-            s=0;
-        }
-        if (m==60) {
-            d++;
-            m=0;
-        }
-        return (d);
-    }    
+    },5000);
 });
