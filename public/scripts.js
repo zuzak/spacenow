@@ -33,27 +33,6 @@ $(document).ready(function() {
 
     setInterval(function(){
         var curr = new Date;
-        var diff = $.now() -  ex1dock;
-       
-        var s, m, h, d;
-        s = Math.floor(diff / 1000);
-        m = Math.floor(s / 60);
-        s = s % 60;
-        h = Math.floor(m / 60);
-        m = m % 60;
-        d = Math.floor(h / 24);
-        h = h % 24; 
-        y = Math.floor(d / 365.5);
-        d = d % 365.5 
-
-        $('#isstime').text(y + "y " + d + "d " + m + "m " + s + "s");
-        $('#isstime').removeClass('placeholder');
-    },1000);
-
-
-
-    setInterval(function(){
-        var curr = new Date;
         var diff = $.now() -  moonliftoff;
        
         var s, m, h, d;
@@ -69,7 +48,26 @@ $(document).ready(function() {
 
         $('#moontime').text(y + "y " + d + "d " + m + "m " + s + "s");
         $('#moontime').removeClass('placeholder');
-    },1000);
+    },10);
+
+    setInterval(function(){
+        var curr = new Date;
+        var diff = $.now() - ex1dock;
+       
+        var s, m, h, d;
+        s = Math.floor(diff / 1000);
+        m = Math.floor(s / 60);
+        s = s % 60;
+        h = Math.floor(m / 60);
+        m = m % 60;
+        d = Math.floor(h / 24);
+        h = h % 24;
+        y = Math.floor(d / 365.5);
+        d = d % 365.5
+
+        $('#isstime').text(y + "y " + d + "d " + m + "m " + s + "s");
+        $('#isstime').removeClass('placeholder');
+    },10);
     
     $.get("data/marsweather.json", function(json){
         var data = JSON.parse(json);
@@ -86,7 +84,7 @@ $(document).ready(function() {
         $("#mtemp").removeClass("placeholder");
     });
 
-    setInterval(function(){
+    function issLocation(){
             $.get("data/isslocation.json", function(json){
                 var data = JSON.parse(json);
                 var lat,lon;
@@ -109,5 +107,7 @@ $(document).ready(function() {
                 $('#isslat').text(lat + " " + lon);
                 $('#isslat').removeClass("placeholder");
             });
-    },5000);
+        setTimeout(issLocation,5000);
+    }
+    issLocation();
 });
